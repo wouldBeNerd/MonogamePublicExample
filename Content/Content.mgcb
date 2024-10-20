@@ -19,12 +19,6 @@
 /processorParam:DebugMode=Auto
 /build:FX/LightShader.fx
 
-#begin FX/LightShader.fx
-/importer:EffectImporter
-/processor:EffectProcessor
-/processorParam:DebugMode=Auto
-/build:FX/LightShader.fx
-
 #begin FX/MaskShader.fx
 /importer:EffectImporter
 /processor:EffectProcessor
@@ -54,18 +48,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:png/lightMaps.png
-
-#begin png/pxl_font_10ASCII.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:png/pxl_font_10ASCII.png
 
 #begin png/testmap.png
 /importer:TextureImporter
