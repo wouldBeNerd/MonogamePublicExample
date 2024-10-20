@@ -6,7 +6,6 @@
 	#define PS_SHADERMODEL ps_4_0_level_9_1
 #endif
 
-//! this is what you _spriteBatch.Draw() to the rendertarget in between _spriteBatch.Begin() and _spriteBatch.End()
 float lightIntensity = 0.5;
 
 //	This is the sampler for the render target texture.

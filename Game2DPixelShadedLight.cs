@@ -90,9 +90,6 @@ public class Game2DPixelShadedLight : Game
         GraphicsDevice.Clear(Color.Black);
 
 
-
-
-
         //light to rendertarget = RT2DLightMask
         GraphicsDevice.SetRenderTarget(RT2DLightMask);
         GraphicsDevice.Clear(Color.Transparent);
@@ -112,9 +109,6 @@ public class Game2DPixelShadedLight : Game
         _spriteBatch.Draw(T2DLightMask, bigLightPos2, bigLight, Color.Red , 0, Vector2.Zero, 2f, SpriteEffects.None, 0.001f);
         _spriteBatch.Draw(T2DLightMask, bigLightPos3, bigLight, Color.Blue * 0.6f, 0, Vector2.Zero, 4f, SpriteEffects.None, 0.001f);
         _spriteBatch.Draw(T2DLightMask, bigLightPos5, bigLight, Color.Blue * 0.6f, 0, Vector2.Zero, 4f, SpriteEffects.None, 0.001f);
-
-
-
         _spriteBatch.End();
 
 
@@ -175,15 +169,15 @@ public class Game2DPixelShadedLight : Game
 
 
 
+
+        //draw to screen the final render target
         GraphicsDevice.SetRenderTarget(null);
         GraphicsDevice.Clear(Color.Black);
         _spriteBatch.Begin();
-
- 
-        // _spriteBatch.Draw(RT2DLightMask, Vector2.Zero, RT2DWorldPlusLightMask.Bounds, Color.White, 0, Vector2.Zero, 1f, SpriteEffects.None, 0.003f);
+        //world plus light
         _spriteBatch.Draw(RT2DWorldPlusLightMask, Vector2.Zero, RT2DWorldPlusLightMask.Bounds, Color.White, 0, Vector2.Zero, 1f, SpriteEffects.None, 0.003f);
+        //dark mask
         _spriteBatch.Draw(RT2DdarkMask, Vector2.Zero, RT2DdarkMask.Bounds, Color.White * shadeIntensity, 0, Vector2.Zero, 1f, SpriteEffects.None, 0.002f);
-
         _spriteBatch.End();
 
 
