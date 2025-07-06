@@ -1,0 +1,84 @@
+using System;
+using System.Collections.Generic;
+using Engine;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+
+/// <summary>
+/// DrawQueue2D PUT DrawQueue2D.StartUpdate() AT THE BEGINNING OF THE GameScene.Update() METHOD 
+/// </summary>
+public class DrawQueue2D{
+    
+    public struct Draw2D{
+        public int textureID;
+        public Vector2 pos;
+        public Rectangle rect;
+        public Color color;
+        public float rotation;
+        public Vector2 origin;
+        public float scale;
+        public SpriteEffects spriteEffects;
+        public float layerDepth;
+    }
+    // (DrawQueue2Frame,DrawQueue2Frame) queuSwitch ;
+    DrawQueue2Frame queueDraw ;
+    DrawQueue2Frame[] queueUpdate = new DrawQueue2Frame[2];
+    DrawQueue2Frame swapper ;
+
+    int qI = 0;
+    /// <summary>
+    /// StartUpdate() BEFORE ANYTHING ELSE IN THE UPDATE METHOD <br>
+    /// ALL TEXTURES USED MUST BE LOADED INTO THE STATIC CLASS T2D
+    /// </summary>
+    /// <param name="size"></param>
+    public DrawQueue2D(int size){
+        queueDraw = new DrawQueue2Frame(size);
+        queueUpdate = new DrawQueue2Frame[2]{
+            new DrawQueue2Frame(size),
+            new DrawQueue2Frame(size)
+        };
+        swapper = new DrawQueue2Frame(size);
+    }
+    public void StartUpdate(){
+        qI = (qI + 1) % 2;
+        queueUpdate[qI].Clear();
+    }
+    /// <summary>
+    /// RUN at beginning of Update
+    /// </summary>
+    void StartDraw(){
+        int qIinverse = (qI + 1) % 2;
+        swapper = queueDraw;
+        queueDraw = queueUpdate[qIinverse];
+        queueUpdate[qIinverse] = swapper;
+    }
+
+
+
+
+    
+    public void Add(int textureID, Vector2 pos, Rectangle rect, float layerDepth){
+        queueUpdate[qI].Add(textureID, pos, rect, Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, layerDepth);
+    }
+    public void Add(int textureID, Vector2 pos, Rectangle rect, Color clr, float layerDepth){
+        queueUpdate[qI].Add(textureID, pos, rect, clr, 0, Vector2.Zero, 1, SpriteEffects.None, layerDepth);
+    }
+
+    public void Add(int textureID, Vector2 pos, Rectangle rect, Color color, float rotation, Vector2 origin, float scale, SpriteEffects spriteEffects, float layerDepth){
+        queueUpdate[qI].Add(textureID, pos, rect, color, rotation, origin, scale, spriteEffects, layerDepth);
+    }
+
+
+
+    public void Draw(SpriteBatch sb){
+        StartDraw();
+        queueDraw.Draw(sb);
+    }   
+
+
+    public void DrawDebugCount(SpriteBatch sb, string prefix, Vector2 pos){
+        queueDraw.DrawDebugCount(sb, prefix, pos);
+    }
+
+
+}
