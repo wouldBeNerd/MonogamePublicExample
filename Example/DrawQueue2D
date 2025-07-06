@@ -39,7 +39,11 @@ public class DrawQueue2D{
         };
         swapper = new DrawQueue2Frame(size);
     }
-    public void StartUpdate(){
+    /// <summary>
+    /// StartUpdate() BEFORE ANY ADD CALLS IN THE UPDATE METHOD <br>
+    /// </summary>
+    public void StartUpdate()
+    {
         qI = (qI + 1) % 2;
         queueUpdate[qI].Clear();
     }
