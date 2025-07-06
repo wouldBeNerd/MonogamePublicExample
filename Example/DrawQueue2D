@@ -48,7 +48,7 @@ public class DrawQueue2D{
         queueUpdate[qI].Clear();
     }
     /// <summary>
-    /// RUN at beginning of Update
+    /// RUN at beginning of Draw Method
     /// </summary>
     void StartDraw(){
         int qIinverse = (qI + 1) % 2;
