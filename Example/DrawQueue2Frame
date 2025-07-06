@@ -1,0 +1,86 @@
+using System;
+using System.Collections.Generic;
+using Engine;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using static DrawQueue2D;
+
+public class DrawQueue2Frame{
+    
+    Draw2D[] queue ;
+    public int count {get; private set;} = 0;
+    int statPrevCount = 0;
+    int size;
+
+    /// <summary>
+    /// ALL TEXTURES USED MUST BE LOADED INTO THE STATIC CLASS T2D
+    /// </summary>
+    /// <param name="size"></param>
+    public DrawQueue2Frame(int size){
+        queue = new Draw2D[size];
+        count = 0;
+        this.size = size - 1;
+    }
+
+    
+    public void Add(int textureID, Vector2 pos, Rectangle rect, float layerDepth){
+        Add(textureID, pos, rect, Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, layerDepth);
+    }
+    public void Add(int textureID, Vector2 pos, Rectangle rect, Color clr, float layerDepth){
+        Add(textureID, pos, rect, clr, 0, Vector2.Zero, 1, SpriteEffects.None, layerDepth);
+    }
+
+    public void Add(int textureID, Vector2 pos, Rectangle rect, Color color, float rotation, Vector2 origin, float scale, SpriteEffects spriteEffects, float layerDepth){
+        
+        queue[count].textureID = textureID;
+        queue[count].pos = pos;
+        queue[count].rect = rect;
+        queue[count].color = color;
+        queue[count].rotation = rotation;
+        queue[count].origin = origin;
+        queue[count].scale = scale;
+        queue[count].spriteEffects = spriteEffects;
+        queue[count].layerDepth = layerDepth;
+
+
+        //! which one to use
+        count = (count + 1) % size;
+        //! OR
+        // if(count > size){
+        //     count = 0;
+        // }
+
+    }
+
+
+
+    public void Draw(SpriteBatch sb){
+        for(int i = 0; i < count; i++){
+            sb.Draw(
+                T2D.Get(queue[i].textureID), 
+                queue[i].pos, 
+                queue[i].rect, 
+                queue[i].color, 
+                queue[i].rotation, 
+                queue[i].origin, 
+                queue[i].scale, 
+                queue[i].spriteEffects, 
+                layerDepth: queue[i].layerDepth);
+        }
+        statPrevCount = count;
+        count = 0;
+        // Console.WriteLine("DrawQueue2D.Draw() count: " + count);
+    }   
+
+
+    public void DrawDebugCount(SpriteBatch sb, string prefix, Vector2 pos){
+        ASCII2.DrawLive(sb, 5, prefix + statPrevCount.ToString() + "/" + queue.Length, pos, Color.White, 0.001f); 
+        statPrevCount = 0;
+    }
+
+    public void Clear(){
+        count = 0;
+    }
+
+
+}
