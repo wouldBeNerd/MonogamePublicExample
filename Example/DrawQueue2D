@@ -27,7 +27,6 @@ public class DrawQueue2D{
 
     int qI = 0;
     /// <summary>
-    /// StartUpdate() BEFORE ANYTHING ELSE IN THE UPDATE METHOD <br>
     /// ALL TEXTURES USED MUST BE LOADED INTO THE STATIC CLASS T2D
     /// </summary>
     /// <param name="size"></param>
@@ -47,17 +46,6 @@ public class DrawQueue2D{
         qI = (qI + 1) % 2;
         queueUpdate[qI].Clear();
     }
-    /// <summary>
-    /// RUN at beginning of Draw Method
-    /// </summary>
-    void StartDraw(){
-        int qIinverse = (qI + 1) % 2;
-        swapper = queueDraw;
-        queueDraw = queueUpdate[qIinverse];
-        queueUpdate[qIinverse] = swapper;
-    }
-
-
 
 
     
@@ -73,11 +61,16 @@ public class DrawQueue2D{
     }
 
 
-
     public void Draw(SpriteBatch sb){
         StartDraw();
         queueDraw.Draw(sb);
     }   
+    void StartDraw(){
+        int qIinverse = (qI + 1) % 2;
+        swapper = queueDraw;
+        queueDraw = queueUpdate[qIinverse];
+        queueUpdate[qIinverse] = swapper;
+    }
 
 
     public void DrawDebugCount(SpriteBatch sb, string prefix, Vector2 pos){
